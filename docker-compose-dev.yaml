@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  database-scanner-pro:
+    image: postgres:9.6
+    container_name: database_scanner_pro
+    environment:
+      - POSTGRES_DB=SCANNER_PRO
+      - POSTGRES_USER=scanner_pro
+      - POSTGRES_PASSWORD=root123
+    volumes:
+      - "./postgres:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"

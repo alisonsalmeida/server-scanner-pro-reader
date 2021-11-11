@@ -2,3 +2,9 @@ venv/
 __pycache__/
 
 *.pyc
+.env
+docker-compose.yaml
+postgres/
+.idea/
+storage/*
+!storage/.gitkeep
