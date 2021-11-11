@@ -11,6 +11,13 @@ import json
 class SheetController:
     @staticmethod
     async def find(request: Request, _sheet: str) -> Sheet:
+        """
+        Verifica se a planilha identificada por _sheet existe
+        :param request:
+        :param _sheet:
+        :return: Sheet
+        """
+
         user = request.headers['user']
         sheet = Sheet.get_or_none(_id=_sheet)
 
@@ -24,6 +31,12 @@ class SheetController:
 
     @staticmethod
     async def index(request: Request):
+        """
+        Retorna as primeira 10 planilhas do usuario
+        aceita page e size para a paginação
+        :param request:
+        :return:
+        """
         with connection.atomic() as transaction:
             page = request.args['page']
             size = request.args['size']
@@ -39,12 +52,23 @@ class SheetController:
 
     @staticmethod
     async def show(request: Request, sheet: str):
+        """
+        Retorna uma planilha identificada por sheet
+        :param request:
+        :param sheet:
+        :return:
+        """
         with connection.atomic() as transaction:
             sheet = await SheetController.find(request, sheet)
             return response.json(sheet.json, dumps=json.dumps, cls=Serialize)
 
     @staticmethod
     async def store(request: Request):
+        """
+        Cria uma nova planilha para o usuario
+        :param request:
+        :return:
+        """
         with connection.atomic() as transaction:
             data = request.json
             data['user'] = request.headers['user']
@@ -58,6 +82,12 @@ class SheetController:
 
     @staticmethod
     async def destroy(request: Request, sheet: str):
+        """
+        Remove uma planilha identificada por sheet
+        :param request:
+        :param sheet:
+        :return:
+        """
         with connection.atomic() as transaction:
             sheet = await SheetController.find(request, sheet)
             sheet.delete_instance(True)
